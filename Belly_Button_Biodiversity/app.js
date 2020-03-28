@@ -1,5 +1,6 @@
+function getPlot(id) {
 //extract the json data from the json file samples
-d3.json("../../samples.json").then((data) => {
+d3.json("samples.json").then((data) => {
     console.log(data);
     var wfreq= data.metadata.map(data => data.wfreq);
     console.log(`The washing frequency is ${wfreq}.`);
@@ -56,17 +57,17 @@ d3.json("../../samples.json").then((data) => {
 
     //gauge chart https://plotly.com/javascript/gauge-charts/ *Source*
 });
-
+}
 //metadata grabbing
 function getData(id) {
-    d3.json("../../samples.json").then((data) => {
+    d3.json("samples.json").then((data) => {
         var metadata = data.metadata;
         console.log(metadata);
         var got = metadata.filter(metadata => metadata.id.toString() === id)[0];
         var demographic = d3.select("#sample-metadata");
         demographic.html("");
-        Object.entires(got).forEach((key) => {
-            demographic.append("h5").text(key[0] + ":" + key[1] + "\n");
+        Object.entries(got).forEach((key, value) => {
+            demographic.append("panel-body").text(`${key}:${value}\n`);
         });
     });
 };
@@ -80,7 +81,7 @@ function optionChanged(id) {
 //load a default
 function init() {
     var dropdown = d3.select("#selDataset");
-    d3.json("../../samples.json").then((data) => {
+    d3.json("samples.json").then((data) => {
         console.log(data);
         data.names.forEach(function (name) {
             dropdown.append("option").text(name).property("value");
